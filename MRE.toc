@@ -1,0 +1,6 @@
+## Interface: 11200
+## Author: shirsig
+## Title: Mana Rage Energy
+## SavedVariablesPerCharacter: MRE_TYPE
+## SavedVariables: MRE_POSITION
+MRE.lua
