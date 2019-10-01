@@ -23,13 +23,13 @@ frame:RegisterForDrag('LeftButton')
 frame:SetScript('OnUpdate', function() this:EnableMouse(IsAltKeyDown() or this.dragging) end)
 frame:SetScript('OnDragStart', function() this.dragging = true this:StartMoving() end)
 frame:SetScript('OnDragStop', function() this.dragging = false this:StopMovingOrSizing() MRE_POSITION = {frame:GetCenter()} end)
-frame:SetScript('OnEvent', function()
+frame:SetScript('OnEvent', function(_, event, arg1)
 	if event ~= 'PLAYER_LOGIN' then
 		if arg1 ~= 'player' then return end
 		MRE_TYPE = gsub(gsub(event, 'UNIT_', ''), 'MAX', '')
 	end
 	local fraction = UnitMana('player') / UnitManaMax('player')
-	for i, component in COLOR[MRE_TYPE] do
+	for i, component in pairs(COLOR[MRE_TYPE]) do
 		text[({'r','g','b'})[i]] = component * fraction + (1 - fraction)
 	end
 	text:SetText(UnitMana('player'))
@@ -38,6 +38,6 @@ frame:SetScript('OnEvent', function()
 	frame:SetPoint('CENTER', UIParent, 'BOTTOMLEFT', unpack(MRE_POSITION or {frame:GetCenter()}))
 	text:SetTextColor(text.r, text.g, text.b)
 end)
-for _, event in {'PLAYER_LOGIN', 'UNIT_MANA', 'UNIT_MAXMANA', 'UNIT_RAGE', 'UNIT_MAXRAGE', 'UNIT_ENERGY', 'UNIT_MAXENERGY'} do
+for _, event in pairs{'PLAYER_LOGIN', 'UNIT_MANA', 'UNIT_MAXMANA', 'UNIT_RAGE', 'UNIT_MAXRAGE', 'UNIT_ENERGY', 'UNIT_MAXENERGY'} do
 	frame:RegisterEvent(event)
 end
